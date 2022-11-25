@@ -1,3 +1,6 @@
 export { LikeIcon } from './icons/LikeIcon'
 export { ActionDotIcon } from './icons/ActionDotIcon'
 export { Logo } from './icons/Logo'
+export { CommentIcon } from './icons/CommentIcon'
+export { ShareIcon } from './icons/ShareIcon'
+export { SaveIcon } from './icons/SaveIcon'

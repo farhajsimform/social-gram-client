@@ -1,18 +1,24 @@
 import { Suspense, FC } from 'react'
 import { Outlet } from 'react-router-dom'
 import Header from 'components/Header/header'
-interface IHeaderProps {
+import RightSideBar from 'components/RightSideBar/RightSideBar'
+import LeftSideBar from 'components/LeftSideBar/LeftSideBar'
+interface ILayoutProps {
   isHeaderVisible?: boolean
   isFooterVisible?: boolean
 }
 
-const Layout: FC<IHeaderProps> = ({ isHeaderVisible }) => {
+const Layout: FC<ILayoutProps> = ({ isHeaderVisible }) => {
   return (
     <>
       {isHeaderVisible ? <Header /> : null}
-      <Suspense fallback={<div>loading</div>}>
-        <Outlet />
-      </Suspense>
+      <div className='feed-layout'>
+        <LeftSideBar />
+        <Suspense fallback={<div>loading</div>}>
+          <Outlet />
+        </Suspense>
+        <RightSideBar />
+      </div>
     </>
   )
 }
