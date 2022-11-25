@@ -1,0 +1,113 @@
+.left-side-bar {
+    max-width: 300px;
+    width: 100%;
+    padding: 20px 25px;
+    height: fit-content;
+    display: inline-block;
+  }
+  .feed-user-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px 10px;
+    background: #ffffff;
+    box-shadow: 0px 5px 5px rgb(82 63 105 / 5%);
+    border-radius: 8px;
+    max-width: 250px;
+    width: 100%;
+    margin-bottom: 20px;
+    column-gap: 10px;
+  }
+  .profile-username {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
+  }
+  .profile-username h6 {
+    margin: 0;
+    font-size: 14px;
+    color: #223e62;
+  }
+  .profile-username p {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 9px;
+    letter-spacing: -0.015em;
+    color: #545454;
+  }
+  .left-menu .nav {
+    flex-direction: column;
+  }
+  .left-menu a.nav-link {
+    display: flex;
+    align-items: center;
+    color: #223e62;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .left-menu .nav-link:focus,
+  .nav-link:hover {
+    background: #f4f4f4;
+  }
+  .nav-icon {
+    margin-right: 8px;
+  }
+  .left-menu {
+    background: #ffffff;
+    box-shadow: 0px 5px 5px rgb(82 63 105 / 5%);
+    border-radius: 8px;
+    max-width: 250px;
+    width: 100%;
+    padding: 8px 0;
+    margin-bottom: 20px;
+  }
+  .left-invitation span {
+    font-size: 14px;
+    font-weight: 500;
+    width: 20px;
+    color: #ffffff;
+    background: #ff3e3e;
+    height: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .left-invitation h5 {
+    margin: 0;
+    font-size: 16px;
+    color: #707070;
+  }
+  .left-invitation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .left-blog {
+    background: #ffffff;
+    box-shadow: 0px 5px 5px rgb(82 63 105 / 5%);
+    border-radius: 8px;
+    max-width: 250px;
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .blog-post img {
+    width: 190px;
+  }
+  .left-blog-btn {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+  }
+  .blog-post {
+    margin-bottom: 10px;
+  }
+  .left-blog-btn button.btn.btn-outline-success {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
