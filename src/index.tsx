@@ -7,7 +7,9 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { store, persistor } from './store'
+import setUpInterceptor from 'services/HttpsService'
 
+setUpInterceptor(store)
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <React.StrictMode>
