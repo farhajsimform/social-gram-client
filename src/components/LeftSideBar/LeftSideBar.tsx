@@ -3,12 +3,13 @@ import { Nav, Button } from 'react-bootstrap'
 import { images } from 'config/images/images'
 import './LeftSide.css'
 
-
 const LeftSideBar: FC = () => {
   return (
     <div className='left-side-bar'>
       <div className='feed-user-profile'>
-        <div className='profile-pic'><img src={images.men} alt="" /></div>
+        <div className='profile-pic'>
+          <img src={images.men} alt='' />
+        </div>
         <div className='profile-username'>
           <h6>Farhaj husain khan</h6>
           <p>farhajhussain55</p>
@@ -59,7 +60,9 @@ const LeftSideBar: FC = () => {
         <span>5</span>
       </div>
       <div className='left-blog'>
-        <div className='blog-post'><img src={images.post} alt="blog" /></div>
+        <div className='blog-post'>
+          <img src={images.post} alt='blog' />
+        </div>
         <div className='left-blog-btn'>
           <Button variant='success'>Accept Invitation</Button>
           <Button variant='outline-success'>

@@ -8,7 +8,9 @@ const RightSideBar: FC = () => {
     <div className='right-side-bar'>
       <div className='right-user-req'>
         <div className='right-profile'>
-          <div className='profile-pic'><img src={images.men} alt="" /></div>
+          <div className='profile-pic'>
+            <img src={images.men} alt='' />
+          </div>
           <div className='profile-username'>
             <h6>Farhaj Hussain</h6>
             <p>Wants to Add you</p>
@@ -21,7 +23,9 @@ const RightSideBar: FC = () => {
       </div>
       <div className='right-user-req'>
         <div className='right-profile'>
-          <div className='profile-pic'><img src={images.women} alt="" /></div>
+          <div className='profile-pic'>
+            <img src={images.women} alt='' />
+          </div>
           <div className='profile-username'>
             <h6>kethi james</h6>
             <p>Wants to Add you</p>
