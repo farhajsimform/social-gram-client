@@ -23,7 +23,7 @@ const persistConfig = {
   key: 'root',
   storage,
   timeout: 0,
-  whitelist: [],
+  whitelist: ['common'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

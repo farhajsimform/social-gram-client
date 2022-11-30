@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, Method } from 'axios'
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080/v1'
-const MOCK_API_URL = ''
+const API_URL = process.env.REACT_APP_API_URL
+const MOCK_API_URL = '' // will add later mock api url once will setup test configuration
 
 export const mockApiClient = axios.create({
   baseURL: MOCK_API_URL,
