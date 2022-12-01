@@ -1,22 +1,33 @@
 import { LikeIcon, CommentIcon, ShareIcon, SaveIcon, ActionDotIcon } from 'icons'
+import { formatDistance } from 'date-fns'
 import React, { FC } from 'react'
 import { images } from 'config/images/images'
-import { IPostItem } from 'pages/Feed/FeedPage'
 import './post.css'
+import { IPosts } from 'store/actionTypes/post'
+import { ImageWrapper } from 'utils'
 
-const UserPost: FC<IPostItem> = ({ id, username, time, userLocation, like, comment }) => {
+const UserPost: FC<IPosts> = ({
+  _id,
+  postedby: { picture, fullname, email },
+  images: postImages,
+  likesCount,
+  comments,
+  content,
+  createdAt,
+}) => {
   return (
-    <div className='post' key={id}>
+    <div className='post' key={_id}>
       <div className='post-wrapper'>
         <div className='user-profile'>
           <div className='user-section'>
             <div className='profile-pic'>
-              <img src={images.men} alt='' />
+              <img src={picture ? ImageWrapper(`users/${picture}`) : images.men} alt='' />
             </div>
             <div className='profile-username'>
-              <span>{username}</span>
+              <span>{fullname || email}</span>
               <p>
-                {time}h. {userLocation}, India
+                {formatDistance(new Date(createdAt), new Date(), { addSuffix: false })}.{' '}
+                {'Lucknow'}, India
               </p>
             </div>
           </div>
@@ -24,8 +35,11 @@ const UserPost: FC<IPostItem> = ({ id, username, time, userLocation, like, comme
             <ActionDotIcon />
           </div>
         </div>
+        <div>
+          <p>{content}</p>
+        </div>
         <div className='post-image'>
-          <img src={images.post} alt='' />
+          <img src={postImages[0] ? ImageWrapper(`posts/${postImages[0]}`) : images.post} alt='' />
         </div>
         <div className='like-bar'>
           <div className='like-action'>
@@ -37,8 +51,8 @@ const UserPost: FC<IPostItem> = ({ id, username, time, userLocation, like, comme
             <SaveIcon />
           </div>
           <div className='post-like-stat'>
-            <p>{like} likes</p>
-            <span>View all {comment} comments</span>
+            <p>{likesCount || 0} likes</p>
+            <span>View all {comments?.length} comments</span>
           </div>
         </div>
       </div>
@@ -46,4 +60,4 @@ const UserPost: FC<IPostItem> = ({ id, username, time, userLocation, like, comme
   )
 }
 
-export default UserPost
+export default React.memo(UserPost)

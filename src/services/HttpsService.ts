@@ -21,7 +21,7 @@ const codes = {
 
 const setUpInterceptor = (store: any) => {
   baseApiClient.interceptors.request.use(async (config: any | AxiosRequestConfig) => {
-    const token = store?.getState()?.common?.loginData?.token
+    const token = store?.getState()?.common?.loggedInUserData?.accessToken
     config.headers['Authorization'] = 'Bearer ' + token
     return config
   })

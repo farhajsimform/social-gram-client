@@ -27,6 +27,7 @@ const Register: FC = () => {
       const payload = {
         email: data?.email,
         pwd: data?.password,
+        fullname: data?.name,
       }
       const response = await POST({ subUrl: APIEndpoints.authentication.register, data: payload })
       if (response.status === HttpStatusCode.Created) {

@@ -1,5 +1,5 @@
 import { useState, FC } from 'react'
-import { Navbar, Nav, Form, Button, FormControl } from 'react-bootstrap'
+import { Navbar, Nav, Button, FormControl } from 'react-bootstrap'
 import ImageUploader, {
   ImageChangeType,
   ImageTypeProps,
@@ -7,15 +7,39 @@ import ImageUploader, {
 import { Logo } from 'icons'
 import { ModalWrapper } from 'components/Modal/Modal'
 import './head.css'
+import { contentTypes, POST } from 'services/HttpsService'
+import { APIEndpoints, HttpStatusCode } from 'constant'
+import { TextInput } from 'components/Input/TextInput'
 
 const Header: FC = () => {
   const [show, setShow] = useState<boolean>(false)
   const [images, setImages] = useState<ImageTypeProps>([])
+  const [content, setContent] = useState('')
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const onImageChange: ImageChangeType = (imageList, addUpdateIndex) => {
+  const onImageChange: ImageChangeType = (imageList) => {
     setImages(imageList)
-    console.log(addUpdateIndex)
+  }
+
+  const createPost = async () => {
+    try {
+      const formState = new FormData()
+      for (let index = 0; index < images.length; index++) {
+        const element = images[index]
+        formState.append('myfiles', element.file as File)
+      }
+      formState.append('content', content)
+      const response = await POST({
+        subUrl: APIEndpoints.post.post,
+        data: formState,
+        headers: contentTypes.multipart,
+      })
+      if (response?.status === HttpStatusCode.Created) {
+        console.log(response)
+      }
+    } catch (error) {
+      console.log('error', error)
+    }
   }
 
   return (
@@ -49,16 +73,20 @@ const Header: FC = () => {
                     <Button variant='secondary' onClick={handleClose}>
                       Discard
                     </Button>
-                    <Button variant='primary' onClick={handleClose}>
+                    <Button variant='primary' onClick={createPost}>
                       Post
                     </Button>
                   </>
                 }
               >
-                <Form.Group className='mb-3' controlId='exampleForm.ControlTextarea1'>
-                  <Form.Label>Whats in your mind</Form.Label>
-                  <Form.Control as='textarea' rows={3} />
-                </Form.Group>
+                <TextInput
+                  as={'textarea'}
+                  rows={3}
+                  label='Whats in your mind'
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
+
                 <ImageUploader onImageChange={onImageChange} images={images} />
               </ModalWrapper>
             </div>
