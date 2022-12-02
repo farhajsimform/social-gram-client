@@ -11,4 +11,10 @@ socket.on('connect', () => {
 socket.on('disconnect', () => {
   console.log(socket.connected, 'disconnected') // false
 })
-export { socket }
+
+const GetNewPosts = (cb: (data: any) => void) => {
+  socket.on('GetNewPosts', (data) => {
+    cb(data)
+  })
+}
+export { socket, GetNewPosts }

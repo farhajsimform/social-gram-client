@@ -26,8 +26,8 @@ const UserPost: FC<IPosts> = ({
             <div className='profile-username'>
               <span>{fullname || email}</span>
               <p>
-                {formatDistance(new Date(createdAt), new Date(), { addSuffix: false })}.{' '}
-                {'Lucknow'}, India
+                {formatDistance(new Date(createdAt), new Date(), { addSuffix: false })}. {'Lucknow'}
+                , India
               </p>
             </div>
           </div>
@@ -38,13 +38,18 @@ const UserPost: FC<IPosts> = ({
         <div>
           <p>{content}</p>
         </div>
-        <div className='post-image'>
-          <img src={postImages[0] ? ImageWrapper(`posts/${postImages[0]}`) : images.post} alt='' />
-        </div>
+        {(postImages || []).map((source: string, index: number) => {
+          return (
+            <div className='post-image' key={index}>
+              <img src={source ? ImageWrapper(`posts/${source}`) : images.post} alt='' />
+            </div>
+          )
+        })}
+
         <div className='like-bar'>
           <div className='like-action'>
             <div className='post-like-btn'>
-              <LikeIcon />
+              <LikeIcon/>
               <CommentIcon />
               <ShareIcon />
             </div>

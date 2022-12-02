@@ -8,6 +8,8 @@ import {
   GET_POST_SUCCESS,
   GET_POST_FAILED,
   Posts,
+  IPosts,
+  GET_NEW_ADDED_POST,
 } from '../actionTypes/post'
 
 export function getPostsRequest(): GetPostsActionTypes {
@@ -31,6 +33,14 @@ export function getTasksFailed(): GetPostsActionTypes {
   }
 }
 
+export function AddNewAddedPost(post: IPosts): GetPostsActionTypes {
+  return {
+    type: GET_NEW_ADDED_POST,
+    payload: {
+      post,
+    },
+  }
+}
 export const GetAllPosts =
   (request: GetPostRequestBody): AppThunk =>
   async (dispatch) => {
@@ -41,7 +51,6 @@ export const GetAllPosts =
         params: { limit: request.limit },
       })
       if (response.status === HttpStatusCode.Ok) {
-        console.log(response?.data)
         dispatch(getTasksSuccess(response?.data))
       }
     } catch (error) {

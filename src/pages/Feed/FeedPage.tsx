@@ -1,9 +1,11 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import UserPost from 'components/Post/Posts'
-import './feed.css'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { GetAllPosts } from 'store/actions/post'
+import { AddNewAddedPost, GetAllPosts } from 'store/actions/post'
 import { IPosts } from 'store/actionTypes/post'
+import { GetNewPosts } from 'socket/socket'
+import './feed.css'
 export interface IPostItem {
   id: number
   username: string
@@ -15,18 +17,47 @@ export interface IPostItem {
 
 const Feed: FC = () => {
   const dispatch = useAppDispatch()
-  const { isPostsLoading, posts } = useAppSelector((state) => state.post)
-  console.log(isPostsLoading, posts)
+  const { posts } = useAppSelector((state) => state.post)
+  const [limit, setLimit] = useState<number>(5)
+
+  const memoizedPosts = useMemo(() => {
+    const unique: IPosts[] = []
+    ;(posts || []).map((x: IPosts) =>
+      unique.filter((a) => a._id == x._id).length > 0 ? null : unique.push(x),
+    )
+    return unique
+  }, [posts])
 
   useEffect(() => {
-    dispatch(GetAllPosts({ limit: 100 }))
+    dispatch(GetAllPosts({ limit }))
+  }, [limit])
+
+  useEffect(() => {
+    GetNewPosts((data) => {
+      // Here getting instantly newly added posts
+      dispatch(AddNewAddedPost(data))
+    })
   }, [])
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      setLimit((pre) => pre + 5)
+    }, 1500)
+  }
+
   return (
     <div className='feed-layout'>
       <div className='feed-wrapper'>
-        {(posts || []).map((data: IPosts) => {
-          return <UserPost {...data} key={data._id} />
-        })}
+        <InfiniteScroll
+          dataLength={(posts || []).length}
+          next={fetchMoreData}
+          hasMore={true}
+          loader={<h4>Loading...</h4>}
+        >
+          {(memoizedPosts || []).map((data: IPosts) => {
+            return <UserPost {...data} key={data._id} />
+          })}
+        </InfiniteScroll>
       </div>
     </div>
   )

@@ -33,6 +33,7 @@ export interface GetPostRequestBody {
 export const GET_POST_REQUEST = 'GET_POST_REQUEST'
 export const GET_POST_SUCCESS = 'GET_POST_SUCCESS'
 export const GET_POST_FAILED = 'GET_POST_FAILED'
+export const GET_NEW_ADDED_POST = 'GET_NEW_ADDED_POST'
 
 interface GetPostRequestAction {
   type: typeof GET_POST_REQUEST
@@ -45,8 +46,19 @@ interface GetPostSuccessAction {
   }
 }
 
+interface GetNewAddedPost {
+  type: typeof GET_NEW_ADDED_POST
+  payload: {
+    post: IPosts
+  }
+}
+
 interface GetPostFailedAction {
   type: typeof GET_POST_FAILED
 }
 
-export type GetPostsActionTypes = GetPostRequestAction | GetPostSuccessAction | GetPostFailedAction
+export type GetPostsActionTypes =
+  | GetPostRequestAction
+  | GetPostSuccessAction
+  | GetPostFailedAction
+  | GetNewAddedPost

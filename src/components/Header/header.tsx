@@ -6,15 +6,16 @@ import ImageUploader, {
 } from 'components/ImageUploader/ImageUpoader'
 import { Logo } from 'icons'
 import { ModalWrapper } from 'components/Modal/Modal'
-import './head.css'
 import { contentTypes, POST } from 'services/HttpsService'
 import { APIEndpoints, HttpStatusCode } from 'constant'
 import { TextInput } from 'components/Input/TextInput'
+import { notifyToast } from 'utils'
+import './head.css'
 
 const Header: FC = () => {
   const [show, setShow] = useState<boolean>(false)
   const [images, setImages] = useState<ImageTypeProps>([])
-  const [content, setContent] = useState('')
+  const [content, setContent] = useState<string>('')
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const onImageChange: ImageChangeType = (imageList) => {
@@ -35,10 +36,19 @@ const Header: FC = () => {
         headers: contentTypes.multipart,
       })
       if (response?.status === HttpStatusCode.Created) {
-        console.log(response)
+        setImages([])
+        setContent('')
+        handleClose()
+        notifyToast({
+          message: 'Post successfully',
+          type: 'success',
+        })
       }
-    } catch (error) {
-      console.log('error', error)
+    } catch (error: any) {
+      notifyToast({
+        message: error?.message,
+        type: 'error',
+      })
     }
   }
 
