@@ -5,3 +5,4 @@ import type { RootStates, AppDispatch } from 'store'
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<RootStates> = useSelector
 export * from './useRouter'
+export * from './useDebounce'

@@ -3,7 +3,7 @@ export const findHashtags = (searchText: string) => {
   const regexp = /(\s|^)\#\w\w+\b/gm
   const result = searchText.match(regexp)
   if (result) {
-    return result.map(s => s.trim())
+    return result.map((s) => s.trim())
   } else {
     return false
   }

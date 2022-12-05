@@ -49,7 +49,7 @@ const UserPost: FC<IPosts> = ({
         <div className='like-bar'>
           <div className='like-action'>
             <div className='post-like-btn'>
-              <LikeIcon/>
+              <LikeIcon />
               <CommentIcon />
               <ShareIcon />
             </div>

@@ -2,8 +2,10 @@ import React, { FC } from 'react'
 import { Nav, Button } from 'react-bootstrap'
 import { images } from 'config/images/images'
 import './LeftSide.css'
+import { useAppSelector } from 'hooks'
 
 const LeftSideBar: FC = () => {
+  const profileData = useAppSelector((state)=> state.user?.userProfileData);
   return (
     <div className='left-side-bar'>
       <div className='feed-user-profile'>
@@ -11,8 +13,8 @@ const LeftSideBar: FC = () => {
           <img src={images.men} alt='' />
         </div>
         <div className='profile-username'>
-          <h6>Farhaj husain khan</h6>
-          <p>farhajhussain55</p>
+          <h6>{profileData?.fullname || '-----'}</h6>
+          <p>{profileData?.email}</p>
         </div>
       </div>
       <div className='left-menu'>

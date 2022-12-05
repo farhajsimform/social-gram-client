@@ -1,5 +1,5 @@
-import { useState, FC } from 'react'
-import { Navbar, Nav, Button, FormControl } from 'react-bootstrap'
+import { useState, FC, useEffect } from 'react'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import ImageUploader, {
   ImageChangeType,
   ImageTypeProps,
@@ -10,18 +10,26 @@ import { contentTypes, POST } from 'services/HttpsService'
 import { APIEndpoints, HttpStatusCode } from 'constant'
 import { TextInput } from 'components/Input/TextInput'
 import { notifyToast } from 'utils'
+import { images as AllImages } from 'config/images/images'
+import { useAppDispatch, useAppSelector, useDebounce } from 'hooks'
 import './head.css'
-
+import { getSearchedSuccess, searchUser, sendFriendRequest } from 'store/actions/user'
 const Header: FC = () => {
   const [show, setShow] = useState<boolean>(false)
   const [images, setImages] = useState<ImageTypeProps>([])
   const [content, setContent] = useState<string>('')
+  const [showSearch, setShowSearch] = useState<boolean>(false)
+  const [searchProfileValue, setSearchProfileValue] = useState<string>('')
+  const dispatch = useAppDispatch()
+  const { serachedUsers, isSendingFriendRequestLoading } = useAppSelector((state) => state.user)
+
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
   const onImageChange: ImageChangeType = (imageList) => {
     setImages(imageList)
   }
 
+  const searchTerm = useDebounce(searchProfileValue, 300)
   const createPost = async () => {
     try {
       const formState = new FormData()
@@ -52,6 +60,18 @@ const Header: FC = () => {
     }
   }
 
+  useEffect(() => {
+    if (searchTerm?.length > 2) {
+      const payload = {
+        username: searchTerm,
+        limit: 50,
+      }
+      dispatch(searchUser(payload))
+    } else {
+      dispatch(getSearchedSuccess([]))
+    }
+  }, [searchTerm])
+
   return (
     <div className='header'>
       <Navbar bg='light' expand='lg'>
@@ -64,7 +84,10 @@ const Header: FC = () => {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
-            <FormControl type='search' placeholder='Search' className='me-2' aria-label='Search' />
+            {/* <FormControl type='search' placeholder='Search' className='me-2' aria-label='Search' /> */}
+            <Button variant='outline-default' onClick={() => setShowSearch((pre) => !pre)}>
+              <i className='fa fa-search'></i>
+            </Button>
 
             <Button variant='outline-success' onClick={handleShow}>
               <div className='btn-icon'>
@@ -72,7 +95,9 @@ const Header: FC = () => {
               </div>
               Create
             </Button>
-            <div className='profile-pic'>{/* <img src={Profile} alt="" /> */}</div>
+            <div className='profile-pic'>
+              <img src={AllImages.men} alt='profile-pic' />
+            </div>
             <div>
               <ModalWrapper
                 visible={show}
@@ -100,6 +125,50 @@ const Header: FC = () => {
                 <ImageUploader onImageChange={onImageChange} images={images} />
               </ModalWrapper>
             </div>
+            {showSearch && (
+              <div>
+                <ModalWrapper
+                  visible={showSearch}
+                  onClose={() => setShowSearch((pre) => !pre)}
+                  title='Search user'
+                  footer={
+                    <>
+                      <Button variant='secondary' onClick={() => setShowSearch((pre) => !pre)}>
+                        Close
+                      </Button>
+                    </>
+                  }
+                >
+                  <TextInput
+                    label='Search user'
+                    onChange={(e) => setSearchProfileValue(e.target.value)}
+                  />
+                  <ul className='search-users-list'>
+                    {(serachedUsers || []).map((el) => {
+                      return (
+                        <li key={el._id}>
+                          {el.fullname || el.email}{' '}
+                          <Button
+                            variant='secondary'
+                            disabled={
+                              isSendingFriendRequestLoading ||
+                              el.found ||
+                              el.requested ||
+                              el.friends
+                            }
+                            onClick={() => {
+                              dispatch(sendFriendRequest(el._id))
+                            }}
+                          >
+                            Add +
+                          </Button>
+                        </li>
+                      )
+                    })}
+                  </ul>
+                </ModalWrapper>
+              </div>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
