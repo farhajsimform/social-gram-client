@@ -3,6 +3,7 @@ export const STORE_LOGIN_DATA = 'STORE_LOGIN_DATA'
 export interface LoggedInUserdetails {
   accessToken: string
   roles: Array<number>
+  userid: string
 }
 
 export interface CommonState {

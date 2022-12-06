@@ -14,6 +14,9 @@ import {
   ACCEPT_OR_DECLINE_FRIEND_REQUEST_REQUEST,
   ACCEPT_OR_DECLINE_FRIEND_REQUEST_SUCCESS,
   IUserLoggedUserProfile,
+  GET_USERS_FOR_CHAT_REQUEST,
+  GET_USERS_FOR_CHAT_SUCCESS,
+  GetUsersForChatAction,
 } from '../actionTypes/user'
 
 const initialState: UserState = {
@@ -23,6 +26,8 @@ const initialState: UserState = {
   userProfileData: null,
   isLoggedProfileLoading: false,
   isAcceptOrDeclineFriendRequestLoading: false,
+  usersForChat: [],
+  isUsersForChatLoading: false,
 }
 
 export default function (
@@ -31,7 +36,8 @@ export default function (
     | GetSearchedUserActionTypes
     | SendFriendRequestAction
     | GetLoggedUserProfileAction
-    | AcceptOrDeclineFriendRequestAction,
+    | AcceptOrDeclineFriendRequestAction
+    | GetUsersForChatAction,
 ) {
   switch (action.type) {
     case GET_SEARCHED_USER_REQUEST:
@@ -85,6 +91,17 @@ export default function (
         } as IUserLoggedUserProfile,
       }
     }
+    case GET_USERS_FOR_CHAT_REQUEST:
+      return {
+        ...state,
+        isUsersForChatLoading: !state.isUsersForChatLoading,
+      }
+      case GET_USERS_FOR_CHAT_SUCCESS:
+        return {
+          ...state,
+          isUsersForChatLoading: !state.isUsersForChatLoading,
+          usersForChat: action.payload.users
+        }
     default:
       return state
   }

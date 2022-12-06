@@ -17,4 +17,11 @@ const GetNewPosts = (cb: (data: any) => void) => {
     cb(data)
   })
 }
-export { socket, GetNewPosts }
+
+const GetNewMessagesForRoom = (cb: (data: any) => void) => {
+  socket.on('reciveMessage', (data) => {
+    console.log('data =>>>',data)
+    cb(data)
+  })
+}
+export { socket, GetNewPosts, GetNewMessagesForRoom }

@@ -9,13 +9,15 @@ const Chat = lazy(() => import('pages/Chat/chat'))
 import 'react-toastify/dist/ReactToastify.css'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { getLoggedInUser } from 'store/actions/user'
+import { socket } from 'socket/socket'
 
 function App() {
   const dispatch = useAppDispatch()
   const token = useAppSelector((state) => state.common?.loggedInUserData)
   useEffect(() => {
     token?.accessToken && dispatch(getLoggedInUser())
-  }, [token?.accessToken])
+    token?.userid && socket.emit('join', token?.userid)
+  }, [token?.accessToken, token?.userid])
   return (
     <div>
       <Suspense fallback={<div>Lodaing...</div>}>
@@ -35,7 +37,7 @@ function App() {
           </Route>
 
           <Route
-            path='chat'
+            path='/chat/:roomid'
             element={
               <ProtectedRoute>
                 <Chat />

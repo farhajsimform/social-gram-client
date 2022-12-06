@@ -11,7 +11,7 @@ import { APIEndpoints, HttpStatusCode } from 'constant'
 import { TextInput } from 'components/Input/TextInput'
 import { notifyToast } from 'utils'
 import { images as AllImages } from 'config/images/images'
-import { useAppDispatch, useAppSelector, useDebounce } from 'hooks'
+import { useAppDispatch, useAppSelector, useDebounce, useRouter } from 'hooks'
 import './head.css'
 import { getSearchedSuccess, searchUser, sendFriendRequest } from 'store/actions/user'
 const Header: FC = () => {
@@ -21,6 +21,7 @@ const Header: FC = () => {
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [searchProfileValue, setSearchProfileValue] = useState<string>('')
   const dispatch = useAppDispatch()
+  const {navigate} = useRouter();
   const { serachedUsers, isSendingFriendRequestLoading } = useAppSelector((state) => state.user)
 
   const handleClose = () => setShow(false)
@@ -85,6 +86,11 @@ const Header: FC = () => {
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
             {/* <FormControl type='search' placeholder='Search' className='me-2' aria-label='Search' /> */}
+            <Button variant='outline-default' onClick={() => navigate('/chat/:initial')}>
+            <i className='fa fa-commenting' aria-hidden='true'></i>
+            </Button>
+
+            
             <Button variant='outline-default' onClick={() => setShowSearch((pre) => !pre)}>
               <i className='fa fa-search'></i>
             </Button>
