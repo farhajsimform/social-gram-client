@@ -20,8 +20,13 @@ const GetNewPosts = (cb: (data: any) => void) => {
 
 const GetNewMessagesForRoom = (cb: (data: any) => void) => {
   socket.on('reciveMessage', (data) => {
-    console.log('data =>>>',data)
     cb(data)
   })
 }
-export { socket, GetNewPosts, GetNewMessagesForRoom }
+
+const GetNewAddedCommentForPost = (cb: (data: any) => void) => {
+  socket.on('GetNewComments', (data) => {
+    cb(data)
+  })
+}
+export { socket, GetNewPosts, GetNewMessagesForRoom, GetNewAddedCommentForPost }

@@ -5,6 +5,8 @@ export const APIEndpoints = {
   },
   post: {
     post: '/user-post/post',
+    reaction: '/user-post/reaction',
+    addComment: '/user-post/add-comment'
   },
   user: {
     searchUserProfile: '/user/search-profiles',

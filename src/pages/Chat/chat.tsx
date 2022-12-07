@@ -13,6 +13,7 @@ import './chats.css'
 const Chat: FC = () => {
   const [message, setMessage] = useState<string>('')
   const [chatData, setChatData] = useState<Array<IChats>>([])
+  const [searchValue, setSearchValue] = useState<string>('')
   const dispatch = useAppDispatch()
   const { query } = useRouter()
   const users = useAppSelector((state) => state.user.usersForChat)
@@ -39,8 +40,13 @@ const Chat: FC = () => {
   }, [query?.roomid])
 
   const allFriends = useMemo(() => {
-    return (users || []).filter((el) => el.bothfriends.length)
-  }, [users])
+    return (users || []).filter(
+      (el) =>
+        el.bothfriends.length &&
+        (el.bothfriends[0]?.fullname?.includes(searchValue) ||
+          el.bothfriends[0]?.email?.includes(searchValue)),
+    )
+  }, [users, searchValue])
 
   const selectedUser = useMemo(() => {
     const userData = (users || []).filter((el) => el._id === query?.roomid)
@@ -91,7 +97,11 @@ const Chat: FC = () => {
             <div className='search-box'>
               <div className='input-wrapper'>
                 <i className='fa fa-search' aria-hidden='true'></i>
-                <input placeholder='Search here' type='text' />
+                <input
+                  placeholder='Search here'
+                  type='text'
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
               </div>
             </div>
             {allFriends.map((el, index: number) => {
@@ -117,7 +127,7 @@ const Chat: FC = () => {
                 />
                 <div className='text'>
                   <h6>{bothfriends?.[0]?.fullname || bothfriends?.[0]?.email}</h6>
-                  <p className='text-muted'>Layin' down the law since like before Christ...</p>
+                  <p className='text-muted'>Working from home...</p>
                 </div>
                 <span className='settings-tray--right'>
                   <i className='fa fa-refresh' aria-hidden='true'></i>

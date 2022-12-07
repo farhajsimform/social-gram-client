@@ -1,10 +1,13 @@
-import { LikeIcon, CommentIcon, ShareIcon, SaveIcon, ActionDotIcon } from 'icons'
+import { SaveIcon, ActionDotIcon } from 'icons'
 import { formatDistance } from 'date-fns'
-import React, { FC } from 'react'
+import React, { FC, useState } from 'react'
 import { images } from 'config/images/images'
 import './post.css'
 import { IPosts } from 'store/actionTypes/post'
 import { ImageWrapper } from 'utils'
+import { useAppDispatch } from 'hooks'
+import { HandleLike } from 'store/actions/post'
+import { CommentSection } from './CommentSection'
 
 const UserPost: FC<IPosts> = ({
   _id,
@@ -15,6 +18,8 @@ const UserPost: FC<IPosts> = ({
   content,
   createdAt,
 }) => {
+  const dispatch = useAppDispatch();
+  const [selectedId, setSelectedId] = useState<boolean>(false)
   return (
     <div className='post' key={_id}>
       <div className='post-wrapper'>
@@ -49,20 +54,35 @@ const UserPost: FC<IPosts> = ({
         <div className='like-bar'>
           <div className='like-action'>
             <div className='post-like-btn'>
-              <LikeIcon />
-              <CommentIcon />
-              <ShareIcon />
+              <i
+                className='fa fa-heart'
+                aria-hidden='true'
+                onClick={() =>
+                  dispatch(
+                    HandleLike({
+                      id: _id,
+                      reactionType: 'likes',
+                      reactionCountType: 'likesCount',
+                    }),
+                  )
+                }
+              ></i>
+              <i className='fa fa-comment' aria-hidden='true'></i>
+              <i className='fa fa-paper-plane' aria-hidden='true'></i>
             </div>
             <SaveIcon />
           </div>
           <div className='post-like-stat'>
             <p>{likesCount || 0} likes</p>
-            <span>View all {comments?.length} comments</span>
+            <span onClick={() => setSelectedId(pre => !pre)}>View all {comments?.length} comments</span>
           </div>
+
+            {selectedId && <CommentSection comments ={comments} postid={_id}/>}
+     
         </div>
       </div>
     </div>
   )
 }
 
-export default React.memo(UserPost)
+export default UserPost

@@ -2,7 +2,7 @@ export interface IUser {
   _id: string
   fullname: string
   picture?: string
-  email: boolean
+  email: string
   found?: boolean
   requested?: boolean
   friends?: boolean

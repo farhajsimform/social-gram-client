@@ -2,9 +2,9 @@ import React, { FC, useEffect, useMemo, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import UserPost from 'components/Post/Posts'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { AddNewAddedPost, GetAllPosts } from 'store/actions/post'
+import { AddNewAddedPost, GetAllPosts, HandleNewComment } from 'store/actions/post'
 import { IPosts } from 'store/actionTypes/post'
-import { GetNewPosts } from 'socket/socket'
+import { GetNewAddedCommentForPost, GetNewPosts } from 'socket/socket'
 import './feed.css'
 export interface IPostItem {
   id: number
@@ -36,6 +36,11 @@ const Feed: FC = () => {
     GetNewPosts((data) => {
       // Here getting instantly newly added posts
       dispatch(AddNewAddedPost(data))
+    })
+
+    GetNewAddedCommentForPost(({ comments, postid }) => {
+         // Here getting instantly newly added comments on the post
+      dispatch(HandleNewComment(comments, postid))
     })
   }, [])
 

@@ -1,5 +1,5 @@
 import { APIEndpoints, HttpStatusCode } from 'constant'
-import { GET } from 'services/HttpsService'
+import { GET, PUT } from 'services/HttpsService'
 import { AppThunk } from 'store'
 import {
   GetPostsActionTypes,
@@ -10,6 +10,17 @@ import {
   Posts,
   IPosts,
   GET_NEW_ADDED_POST,
+  POST_LIKE_FAILURE,
+  POST_LIKE_SUCCESS,
+  POST_LIKE_REQUEST,
+  IPostLikeRequestBody,
+  IPostCommentRequestBody,
+  POST_COMMENT_REQUEST,
+  POST_COMMENT_SUCCESS,
+  POST_COMMENT_FAILURE,
+  IComments,
+  PostCommentActionTypes,
+  NEW_ADDED_POST_COMMENT,
 } from '../actionTypes/post'
 
 export function getPostsRequest(): GetPostsActionTypes {
@@ -18,7 +29,7 @@ export function getPostsRequest(): GetPostsActionTypes {
   }
 }
 
-export function getTasksSuccess(posts: Posts): GetPostsActionTypes {
+export function getPostSuccess(posts: Posts): GetPostsActionTypes {
   return {
     type: GET_POST_SUCCESS,
     payload: {
@@ -27,7 +38,7 @@ export function getTasksSuccess(posts: Posts): GetPostsActionTypes {
   }
 }
 
-export function getTasksFailed(): GetPostsActionTypes {
+export function getPostFailed(): GetPostsActionTypes {
   return {
     type: GET_POST_FAILED,
   }
@@ -51,9 +62,74 @@ export const GetAllPosts =
         params: { limit: request.limit },
       })
       if (response.status === HttpStatusCode.Ok) {
-        dispatch(getTasksSuccess(response?.data))
+        dispatch(getPostSuccess(response?.data))
       }
     } catch (error) {
-      dispatch(getTasksFailed())
+      dispatch(getPostFailed())
     }
   }
+
+export const HandleLike =
+  (request: IPostLikeRequestBody): AppThunk =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: POST_LIKE_REQUEST,
+      })
+      const response = await PUT({
+        subUrl: `${APIEndpoints.post.reaction}/${request.id}`,
+        data: {
+          reactionType: request.reactionType,
+          reactionCountType: request.reactionCountType,
+        },
+      })
+      if (response.status === HttpStatusCode.Ok) {
+        dispatch({
+          type: POST_LIKE_SUCCESS,
+          payload: {
+            id: request.id,
+            count: Number(response.data?.count),
+          },
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: POST_LIKE_FAILURE,
+      })
+    }
+  }
+
+export const HandleComment =
+  (request: IPostCommentRequestBody): AppThunk =>
+  async (dispatch) => {
+    try {
+      dispatch({
+        type: POST_COMMENT_REQUEST,
+      })
+      const response = await PUT({
+        subUrl: `${APIEndpoints.post.addComment}/${request.postid}`,
+        data: {
+          comment: request.comment,
+        },
+      })
+      if (response.status === HttpStatusCode.Created) {
+        dispatch({
+          type: POST_COMMENT_SUCCESS,
+        })
+      }
+    } catch (error) {
+      dispatch({
+        type: POST_COMMENT_FAILURE,
+      })
+    }
+  }
+
+export const HandleNewComment = (comments: IComments, postid: string): PostCommentActionTypes => {
+  return {
+    type: NEW_ADDED_POST_COMMENT,
+    payload: {
+      data: comments,
+      postid,
+    },
+  }
+}
