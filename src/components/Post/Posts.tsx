@@ -31,8 +31,7 @@ const UserPost: FC<IPosts> = ({
             <div className='profile-username'>
               <span>{fullname || email}</span>
               <p>
-                {formatDistance(new Date(createdAt), new Date(), { addSuffix: false })}. {'Lucknow'}
-                , India
+                {formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}
               </p>
             </div>
           </div>

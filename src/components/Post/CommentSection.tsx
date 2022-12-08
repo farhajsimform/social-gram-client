@@ -1,9 +1,10 @@
 import { images } from 'config/images/images'
 import { useAppDispatch, useAppSelector } from 'hooks'
-import { FC, useMemo, useState } from 'react'
+import { FC, useState } from 'react'
 import { HandleComment } from 'store/actions/post'
 import { IComments } from 'store/actionTypes/post'
 import { ImageWrapper } from 'utils'
+import { getUniqueArray } from 'utils/getUnique'
 import { CommentListItem } from './CommentListItem'
 type CommentProps = {
   comments: Array<IComments>
@@ -12,6 +13,7 @@ type CommentProps = {
 
 export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
   const [comment, setComment] = useState<string>('')
+  const [limit, setLimit] = useState(6)
   const userData = useAppSelector((state) => state.user.userProfileData)
   const dispatch = useAppDispatch()
   const HandlePostComment = async () => {
@@ -25,13 +27,8 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
     setComment('')
   }
 
-  const memoizedComment = useMemo(() => {
-    const unique: IComments[] = []
-    ;(comments || []).map((x: IComments) =>
-      unique.filter((a) => a._id == x._id).length > 0 ? null : unique.push(x),
-    )
-    return unique
-  }, [comments, comments.length])
+  const memoizedComment = getUniqueArray<IComments>(comments);
+
   return (
     <body>
       <div className='container'>
@@ -39,7 +36,7 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
           <div className='header_comment'>
             <div className='row'>
               <div className='col-md-6 text-left'>
-                <span className='count_comment'>{comments?.length} Comments</span>
+                <span className='count_comment'>{memoizedComment?.length} Comments</span>
               </div>
             </div>
           </div>
@@ -72,14 +69,19 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
             </div>
             <div className='row'>
               <ul id='list_comment' className='col-md-12'>
-                {(memoizedComment || []).map((el, index) => {
+                {(memoizedComment || []).slice(0, limit).map((el, index) => {
                   return <CommentListItem {...el} key={index} />
                 })}
               </ul>
             </div>
 
-            <button className='show_more' type='button'>
-              Load 10 more comments
+            <button
+              className='show_more'
+              type='button'
+              onClick={() => setLimit((pre) => pre + 6)}
+              disabled={limit >= comments.length}
+            >
+              Load {memoizedComment.length > limit ? comments.length - limit : 0} more comments
             </button>
           </div>
         </div>

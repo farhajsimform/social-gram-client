@@ -10,10 +10,13 @@ import { APIEndpoints, HttpStatusCode } from 'constant'
 import { IChats } from 'store/actionTypes/user'
 import { socket, GetNewMessagesForRoom } from 'socket/socket'
 import './chats.css'
+import EmojiComponent from 'components/EmojiPicker/EmojiPicker'
+import { getUniqueArray } from 'utils/getUnique'
 const Chat: FC = () => {
   const [message, setMessage] = useState<string>('')
   const [chatData, setChatData] = useState<Array<IChats>>([])
   const [searchValue, setSearchValue] = useState<string>('')
+  const [isVisibleEmoji, setVisibleEmojiPicker] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const { query } = useRouter()
   const users = useAppSelector((state) => state.user.usersForChat)
@@ -40,12 +43,17 @@ const Chat: FC = () => {
   }, [query?.roomid])
 
   const allFriends = useMemo(() => {
-    return (users || []).filter(
-      (el) =>
-        el.bothfriends.length &&
-        (el.bothfriends[0]?.fullname?.includes(searchValue) ||
-          el.bothfriends[0]?.email?.includes(searchValue)),
-    )
+    return (users || [])
+      .filter(
+        (el) =>
+          el.bothfriends.length &&
+          (el.bothfriends[0]?.fullname?.includes(searchValue) ||
+            el.bothfriends[0]?.email?.includes(searchValue)),
+      )
+      .sort(
+        (a, b) =>
+          new Date(b.chats?.[0]?.createdAt).getTime() - new Date(a.chats?.[0]?.createdAt).getTime(),
+      )
   }, [users, searchValue])
 
   const selectedUser = useMemo(() => {
@@ -53,13 +61,7 @@ const Chat: FC = () => {
     return userData[0] || {}
   }, [users, query?.roomid])
 
-  const memoizedPosts = useMemo(() => {
-    const unique: IChats[] = []
-    ;(chatData || []).map((x: IChats) =>
-      unique.filter((a) => a._id == x._id).length > 0 ? null : unique.push(x),
-    )
-    return unique
-  }, [chatData])
+  const memoizedChats = getUniqueArray<IChats>(chatData);
 
   const { bothfriends } = selectedUser
 
@@ -137,13 +139,17 @@ const Chat: FC = () => {
               </div>
             </div>
             <div className='chat-panel'>
-              {memoizedPosts.map((el, index: number) => {
+              {memoizedChats.map((el, index: number) => {
                 return <ChatListItme {...el} key={index} />
               })}
               <div className='row'>
                 <div className='col-12'>
                   <div className='chat-box-tray'>
-                    <i className='fa fa-cog' aria-hidden='true'></i>
+                    <i
+                      className='fa fa-cog'
+                      aria-hidden='true'
+                      onClick={() => setVisibleEmojiPicker((pre) => !pre)}
+                    ></i>
                     <input
                       type='text'
                       placeholder='Type your message here...'
@@ -160,6 +166,16 @@ const Chat: FC = () => {
                   </div>
                 </div>
               </div>
+              {isVisibleEmoji ? (
+                <div className='row'>
+                  {' '}
+                  <EmojiComponent
+                    onChange={(value) => {
+                     setMessage(pre => pre.concat(value))
+                    }}
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import UserPost from 'components/Post/Posts'
 import { useAppDispatch, useAppSelector } from 'hooks'
@@ -6,6 +6,7 @@ import { AddNewAddedPost, GetAllPosts, HandleNewComment } from 'store/actions/po
 import { IPosts } from 'store/actionTypes/post'
 import { GetNewAddedCommentForPost, GetNewPosts } from 'socket/socket'
 import './feed.css'
+import { getUniqueArray } from 'utils'
 export interface IPostItem {
   id: number
   username: string
@@ -20,13 +21,7 @@ const Feed: FC = () => {
   const { posts } = useAppSelector((state) => state.post)
   const [limit, setLimit] = useState<number>(5)
 
-  const memoizedPosts = useMemo(() => {
-    const unique: IPosts[] = []
-    ;(posts || []).map((x: IPosts) =>
-      unique.filter((a) => a._id == x._id).length > 0 ? null : unique.push(x),
-    )
-    return unique
-  }, [posts])
+  const memoizedPosts = getUniqueArray<IPosts>(posts || [])
 
   useEffect(() => {
     dispatch(GetAllPosts({ limit }))
@@ -54,7 +49,7 @@ const Feed: FC = () => {
     <div className='feed-layout'>
       <div className='feed-wrapper'>
         <InfiniteScroll
-          dataLength={(posts || []).length}
+          dataLength={(memoizedPosts || []).length}
           next={fetchMoreData}
           hasMore={true}
           loader={<h4>Loading...</h4>}
