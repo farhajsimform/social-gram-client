@@ -16,7 +16,7 @@ export interface IUserLoggedUserProfile extends Omit<IUser, 'friends'> {
   receivedRequests: Array<IUser>
   friends: Array<{
     _id: string
-    bothfriends: [Array<IUser>]
+    bothfriends: [IUser]
   }>
 }
 export interface IChats {

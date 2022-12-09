@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { Button } from 'react-bootstrap'
 import ImageUploading, { ImageListType } from 'react-images-uploading'
 
 export type ImageChangeType = (
@@ -30,26 +31,32 @@ const ImageUploader: FC<IImageUploadProps> = ({ onImageChange, images, maxAllowe
           isDragging,
           dragProps,
         }) => (
+          <>
           <div className='upload__image-wrapper'>
-            <button
+            <Button
               style={isDragging ? { color: 'red' } : {}}
               onClick={onImageUpload}
               {...dragProps}
+              variant="outline-primary"
             >
               Click or Drop here
-            </button>
+            </Button>
             &nbsp;
-            <button onClick={onImageRemoveAll}>Remove all images</button>
+            <Button onClick={onImageRemoveAll} variant="outline-danger">Remove all images</Button>
+          
+          </div>
+          <div className="image-item-grid">
             {imageList.map((image, index) => (
               <div key={index} className='image-item'>
-                <img src={image.data_url} alt='' width='100' />
+                <img src={image.data_url} alt='' />
                 <div className='image-item__btn-wrapper'>
-                  <button onClick={() => onImageUpdate(index)}>Update</button>
-                  <button onClick={() => onImageRemove(index)}>Remove</button>
+                  <Button onClick={() => onImageUpdate(index)} variant="outline-success">Update</Button>
+                  <Button onClick={() => onImageRemove(index)} variant="outline-secondary">Remove</Button>
                 </div>
               </div>
             ))}
-          </div>
+              </div>
+            </>
         )}
       </ImageUploading>
     </div>

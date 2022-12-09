@@ -111,10 +111,10 @@ const Header: FC = () => {
                 title='Create Post'
                 footer={
                   <>
-                    <Button variant='secondary' onClick={handleClose}>
+                    <Button variant='danger' onClick={handleClose}>
                       Discard
                     </Button>
-                    <Button variant='primary' onClick={createPost}>
+                    <Button variant='success' onClick={createPost}>
                       Post
                     </Button>
                   </>
@@ -152,7 +152,7 @@ const Header: FC = () => {
                   <ul className='search-users-list'>
                     {(serachedUsers || []).map((el) => {
                       return (
-                        <li key={el._id}>
+                        <li key={el._id} className="search-users-list-li">
                           {el.fullname || el.email}{' '}
                           <Button
                             variant='secondary'

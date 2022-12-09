@@ -106,6 +106,9 @@ const Chat: FC = () => {
                 />
               </div>
             </div>
+            <div className="friends-list-sidebar">
+
+           
             {allFriends.map((el, index: number) => {
               return (
                 <>
@@ -114,6 +117,7 @@ const Chat: FC = () => {
                 </>
               )
             })}
+             </div>
           </div>
           <div className='col-md-8'>
             <div className='settings-tray'>
@@ -139,9 +143,12 @@ const Chat: FC = () => {
               </div>
             </div>
             <div className='chat-panel'>
+              <div className="chat-section">
               {memoizedChats.map((el, index: number) => {
                 return <ChatListItme {...el} key={index} />
               })}
+              </div>
+              
               <div className='row'>
                 <div className='col-12'>
                   <div className='chat-box-tray'>

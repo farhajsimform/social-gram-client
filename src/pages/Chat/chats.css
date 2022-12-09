@@ -147,9 +147,27 @@
       opacity: 1;
     }
   }
-  .offset-md-9 .chat-bubble {
+  .offset-md-3 .chat-bubble {
     background: #74b9ff;
     color: #fff;
+  }
+  .chat-friends  .friend-drawer {
+    align-items: center;
+  }
+  .chat-friends .time {
+    font-size: x-small;
+    text-align: right;
+    display: inherit;
+  }
+  .chat-friends .text h6 {
+    margin: 0;
+  }
+  .chat-friends p {
+    font-size: 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
   }
   
   .chat-box-tray {
@@ -172,4 +190,17 @@
   }
   .chat-box-tray i:last-of-type {
     margin-left: 25px;
+  }
+  .chat-section {
+    min-height: calc(100vh - 225px);
+    height: calc(100vh - 225px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  .friends-list-sidebar {
+    min-height: calc(100vh - 225px);
+    height: calc(100vh - 225px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-right: 1px solid #ccc;
   }

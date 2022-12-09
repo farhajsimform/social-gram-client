@@ -4,7 +4,6 @@ import { FC, useState } from 'react'
 import { HandleComment } from 'store/actions/post'
 import { IComments } from 'store/actionTypes/post'
 import { ImageWrapper } from 'utils'
-import { getUniqueArray } from 'utils/getUnique'
 import { CommentListItem } from './CommentListItem'
 type CommentProps = {
   comments: Array<IComments>
@@ -27,7 +26,6 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
     setComment('')
   }
 
-  const memoizedComment = getUniqueArray<IComments>(comments);
 
   return (
     <body>
@@ -36,7 +34,7 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
           <div className='header_comment'>
             <div className='row'>
               <div className='col-md-6 text-left'>
-                <span className='count_comment'>{memoizedComment?.length} Comments</span>
+                <span className='count_comment'>{comments?.length} Comments</span>
               </div>
             </div>
           </div>
@@ -69,7 +67,7 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
             </div>
             <div className='row'>
               <ul id='list_comment' className='col-md-12'>
-                {(memoizedComment || []).slice(0, limit).map((el, index) => {
+                {(comments || []).slice(0, limit).map((el, index) => {
                   return <CommentListItem {...el} key={index} />
                 })}
               </ul>
@@ -81,7 +79,7 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
               onClick={() => setLimit((pre) => pre + 6)}
               disabled={limit >= comments.length}
             >
-              Load {memoizedComment.length > limit ? comments.length - limit : 0} more comments
+              Load {comments.length > limit ? comments.length - limit : 0} more comments
             </button>
           </div>
         </div>

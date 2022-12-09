@@ -30,3 +30,52 @@
 body{
     background: #f4f4f4;
 }
+.search-users-list {
+   
+    /* height: calc(100vh - 500px);
+    overflow-y: auto;
+    overflow-x: hidden; */
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+}
+.search-users-list li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px dotted #aaa;
+    padding-bottom: 5px;
+}
+.search-users-list li .btn {
+    background: #74b9ff;
+    border-color: #74b9ff;
+}
+.search-users-list li .btn:disabled {
+    cursor: not-allowed;
+    pointer-events: unset;
+}
+.upload__image-wrapper {
+    display: flex;
+    gap: 10px;
+}
+.image-item-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.image-item {
+    padding: 15px;
+    width: 48%;
+}
+.image-item img {
+    max-width: 200px;
+    width: 100%;
+    height: 150px;
+    border-radius: 5px;
+}
+.image-item__btn-wrapper {
+    padding-top: 15px;
+    display: flex;
+    gap: 28px;
+}
