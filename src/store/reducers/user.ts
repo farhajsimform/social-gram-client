@@ -96,12 +96,12 @@ export default function (
         ...state,
         isUsersForChatLoading: !state.isUsersForChatLoading,
       }
-      case GET_USERS_FOR_CHAT_SUCCESS:
-        return {
-          ...state,
-          isUsersForChatLoading: !state.isUsersForChatLoading,
-          usersForChat: action.payload.users
-        }
+    case GET_USERS_FOR_CHAT_SUCCESS:
+      return {
+        ...state,
+        isUsersForChatLoading: !state.isUsersForChatLoading,
+        usersForChat: action.payload.users,
+      }
     default:
       return state
   }

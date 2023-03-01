@@ -28,6 +28,9 @@ const Chat: FC = () => {
   useEffect(() => {
     const fetchRoomChatData = async () => {
       try {
+        if (query?.roomid === 'initial') {
+          return
+        }
         const response = await GET({
           subUrl: `${APIEndpoints.user.getRoomChatData}/${query?.roomid}`,
         })
@@ -61,7 +64,7 @@ const Chat: FC = () => {
     return userData[0] || {}
   }, [users, query?.roomid])
 
-  const memoizedChats = getUniqueArray<IChats>(chatData);
+  const memoizedChats = getUniqueArray<IChats>(chatData)
 
   const { bothfriends } = selectedUser
 
@@ -106,18 +109,16 @@ const Chat: FC = () => {
                 />
               </div>
             </div>
-            <div className="friends-list-sidebar">
-
-           
-            {allFriends.map((el, index: number) => {
-              return (
-                <>
-                  <ChatLeftSideBarItem {...el} key={index} />
-                  <hr />
-                </>
-              )
-            })}
-             </div>
+            <div className='friends-list-sidebar'>
+              {allFriends.map((el, index: number) => {
+                return (
+                  <>
+                    <ChatLeftSideBarItem {...el} key={index} />
+                    <hr />
+                  </>
+                )
+              })}
+            </div>
           </div>
           <div className='col-md-8'>
             <div className='settings-tray'>
@@ -143,12 +144,12 @@ const Chat: FC = () => {
               </div>
             </div>
             <div className='chat-panel'>
-              <div className="chat-section">
-              {memoizedChats.map((el, index: number) => {
-                return <ChatListItme {...el} key={index} />
-              })}
+              <div className='chat-section'>
+                {memoizedChats.map((el, index: number) => {
+                  return <ChatListItme {...el} key={index} />
+                })}
               </div>
-              
+
               <div className='row'>
                 <div className='col-12'>
                   <div className='chat-box-tray'>
@@ -178,7 +179,7 @@ const Chat: FC = () => {
                   {' '}
                   <EmojiComponent
                     onChange={(value) => {
-                     setMessage(pre => pre.concat(value))
+                      setMessage((pre) => pre.concat(value))
                     }}
                   />
                 </div>

@@ -5,7 +5,7 @@ import './LeftSide.css'
 import { useAppSelector } from 'hooks'
 
 const LeftSideBar: FC = () => {
-  const profileData = useAppSelector((state)=> state.user?.userProfileData);
+  const profileData = useAppSelector((state) => state.user?.userProfileData)
   return (
     <div className='left-side-bar'>
       <div className='feed-user-profile'>

@@ -34,7 +34,7 @@ const Feed: FC = () => {
     })
 
     GetNewAddedCommentForPost(({ comments, postid }) => {
-         // Here getting instantly newly added comments on the post
+      // Here getting instantly newly added comments on the post
       dispatch(HandleNewComment(comments, postid))
     })
   }, [])

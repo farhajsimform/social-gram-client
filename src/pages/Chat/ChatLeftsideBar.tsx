@@ -25,14 +25,12 @@ export const ChatLeftSideBarItem: FC<IUsersForChat> = ({ bothfriends, chats, _id
         <h6>{fullname || email}</h6>
         <p className='text-muted'>{chats?.[0]?.message}</p>
         <span className='time text-muted small'>
-        {' '}
-        {chats?.[0]?.createdAt
-          ? formatDistance(new Date(chats?.[0]?.createdAt), new Date(), { addSuffix: true })
-          : null}
-      </span>
+          {' '}
+          {chats?.[0]?.createdAt
+            ? formatDistance(new Date(chats?.[0]?.createdAt), new Date(), { addSuffix: true })
+            : null}
+        </span>
       </div>
-
-    
     </div>
   )
 }

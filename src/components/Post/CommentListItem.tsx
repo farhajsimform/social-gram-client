@@ -10,7 +10,7 @@ export const CommentListItem: FC<IComments> = ({
   commentby: { fullname, email, picture } = {},
   createdAt,
 }) => {
-  const [limit, setLimit] = useState<number>(1500);
+  const [limit, setLimit] = useState<number>(1500)
   return (
     <li className='box_result row'>
       <div className='avatar_comment col-md-1'>

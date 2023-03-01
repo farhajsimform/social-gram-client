@@ -21,7 +21,7 @@ const Header: FC = () => {
   const [showSearch, setShowSearch] = useState<boolean>(false)
   const [searchProfileValue, setSearchProfileValue] = useState<string>('')
   const dispatch = useAppDispatch()
-  const {navigate} = useRouter();
+  const { navigate } = useRouter()
   const { serachedUsers, isSendingFriendRequestLoading } = useAppSelector((state) => state.user)
 
   const handleClose = () => setShow(false)
@@ -85,12 +85,10 @@ const Header: FC = () => {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
-            {/* <FormControl type='search' placeholder='Search' className='me-2' aria-label='Search' /> */}
-            <Button variant='outline-default' onClick={() => navigate('/chat/:initial')}>
-            <i className='fa fa-commenting' aria-hidden='true'></i>
+            <Button variant='outline-default' onClick={() => navigate('/chat/initial')}>
+              <i className='fa fa-commenting' aria-hidden='true'></i>
             </Button>
 
-            
             <Button variant='outline-default' onClick={() => setShowSearch((pre) => !pre)}>
               <i className='fa fa-search'></i>
             </Button>
@@ -152,7 +150,7 @@ const Header: FC = () => {
                   <ul className='search-users-list'>
                     {(serachedUsers || []).map((el) => {
                       return (
-                        <li key={el._id} className="search-users-list-li">
+                        <li key={el._id} className='search-users-list-li'>
                           {el.fullname || el.email}{' '}
                           <Button
                             variant='secondary'

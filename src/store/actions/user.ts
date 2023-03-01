@@ -15,7 +15,7 @@ import {
   ACCEPT_OR_DECLINE_FRIEND_REQUEST_REQUEST,
   ACCEPT_OR_DECLINE_FRIEND_REQUEST_SUCCESS,
   GET_USERS_FOR_CHAT_REQUEST,
-  GET_USERS_FOR_CHAT_SUCCESS
+  GET_USERS_FOR_CHAT_SUCCESS,
 } from '../actionTypes/user'
 
 export function getSearchedUserRequest(): GetSearchedUserActionTypes {
@@ -129,27 +129,26 @@ export const acceptOrDeclineFriendRequest =
     }
   }
 
-  export const getUsersForChat = (): AppThunk =>
-  async (dispatch) => {
-    try {
+export const getUsersForChat = (): AppThunk => async (dispatch) => {
+  try {
+    dispatch({
+      type: GET_USERS_FOR_CHAT_REQUEST,
+    })
+    const response = await GET({
+      subUrl: APIEndpoints.user.getUsersForChat,
+    })
+    if (response.status === HttpStatusCode.Ok) {
       dispatch({
-        type: GET_USERS_FOR_CHAT_REQUEST,
-      })
-      const response = await GET({
-        subUrl: APIEndpoints.user.getUsersForChat,
-      })
-      if (response.status === HttpStatusCode.Ok) {
-        dispatch({
-          type: GET_USERS_FOR_CHAT_SUCCESS,
-          payload: {
-            users: response.data,
-          },
-        })
-      }
-    } catch (error) {
-      console.log(error)
-      dispatch({
-        type: GET_USERS_FOR_CHAT_REQUEST,
+        type: GET_USERS_FOR_CHAT_SUCCESS,
+        payload: {
+          users: response.data,
+        },
       })
     }
+  } catch (error) {
+    console.log(error)
+    dispatch({
+      type: GET_USERS_FOR_CHAT_REQUEST,
+    })
   }
+}

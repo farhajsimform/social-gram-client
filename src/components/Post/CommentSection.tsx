@@ -26,7 +26,6 @@ export const CommentSection: FC<CommentProps> = ({ postid, comments }) => {
     setComment('')
   }
 
-
   return (
     <body>
       <div className='container'>
