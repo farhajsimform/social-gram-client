@@ -6,6 +6,7 @@ export interface IUser {
   found?: boolean
   requested?: boolean
   friends?: boolean
+  username?: string
 }
 export type SearchedUser = Array<IUser>
 

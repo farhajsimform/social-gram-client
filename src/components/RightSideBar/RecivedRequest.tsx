@@ -6,7 +6,7 @@ import { ImageWrapper } from 'utils'
 import { useAppDispatch, useAppSelector } from 'hooks'
 import { acceptOrDeclineFriendRequest } from 'store/actions/user'
 import { APIEndpoints } from 'constant'
-export const RecivedRequest: FC<IUser> = ({ fullname, email, picture, _id }) => {
+export const RecivedRequest: FC<IUser> = ({ username, picture, _id }) => {
   const dispatch = useAppDispatch()
   const loading = useAppSelector((state) => state.user.isAcceptOrDeclineFriendRequestLoading)
   return (
@@ -16,7 +16,7 @@ export const RecivedRequest: FC<IUser> = ({ fullname, email, picture, _id }) => 
           <img src={picture ? ImageWrapper(`user/${picture}`) : images.men} alt='' />
         </div>
         <div className='profile-username'>
-          <h6>{fullname || email}</h6>
+          <h6>{username || '-- -- --'}</h6>
           <p>Wants to Add you</p>
         </div>
       </div>

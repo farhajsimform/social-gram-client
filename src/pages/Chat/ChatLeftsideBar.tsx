@@ -7,7 +7,7 @@ import { ImageWrapper } from 'utils'
 
 export const ChatLeftSideBarItem: FC<IUsersForChat> = ({ bothfriends, chats, _id: roomid }) => {
   const { navigate } = useRouter()
-  const { _id, fullname, email, picture } = bothfriends[0] || {}
+  const { _id, picture, username } = bothfriends[0] || {}
   return (
     <div
       className='friend-drawer friend-drawer--onhover chat-friends'
@@ -22,7 +22,7 @@ export const ChatLeftSideBarItem: FC<IUsersForChat> = ({ bothfriends, chats, _id
         alt=''
       />
       <div className='text'>
-        <h6>{fullname || email}</h6>
+        <h6>{username || '-- -- --'}</h6>
         <p className='text-muted'>{chats?.[0]?.message}</p>
         <span className='time text-muted small'>
           {' '}

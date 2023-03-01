@@ -1,5 +1,5 @@
 import { useState, FC, useEffect } from 'react'
-import { Navbar, Nav, Button } from 'react-bootstrap'
+import { Navbar, Nav, Button, NavDropdown } from 'react-bootstrap'
 import ImageUploader, {
   ImageChangeType,
   ImageTypeProps,
@@ -12,8 +12,10 @@ import { TextInput } from 'components/Input/TextInput'
 import { notifyToast } from 'utils'
 import { images as AllImages } from 'config/images/images'
 import { useAppDispatch, useAppSelector, useDebounce, useRouter } from 'hooks'
-import './head.css'
 import { getSearchedSuccess, searchUser, sendFriendRequest } from 'store/actions/user'
+import { SetLoggedInUserDetails } from 'store/actions/common'
+import './head.css'
+
 const Header: FC = () => {
   const [show, setShow] = useState<boolean>(false)
   const [images, setImages] = useState<ImageTypeProps>([])
@@ -73,6 +75,10 @@ const Header: FC = () => {
     }
   }, [searchTerm])
 
+  const logoutUser = () => {
+    dispatch(SetLoggedInUserDetails(null))
+  }
+
   return (
     <div className='header'>
       <Navbar bg='light' expand='lg'>
@@ -85,50 +91,66 @@ const Header: FC = () => {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ms-auto'>
-            <Button variant='outline-default' onClick={() => navigate('/chat/initial')}>
+            <Nav.Link onClick={() => navigate('/chat/initial')}>
               <i className='fa fa-commenting' aria-hidden='true'></i>
-            </Button>
+            </Nav.Link>
 
-            <Button variant='outline-default' onClick={() => setShowSearch((pre) => !pre)}>
+            <Nav.Link onClick={() => setShowSearch((pre) => !pre)}>
               <i className='fa fa-search'></i>
-            </Button>
+            </Nav.Link>
 
-            <Button variant='outline-success' onClick={handleShow}>
+            <Nav.Link onClick={handleShow}>
               <div className='btn-icon'>
                 <i className='fa-solid fa-square-plus'></i>
               </div>
-              Create
-            </Button>
-            <div className='profile-pic'>
-              <img src={AllImages.men} alt='profile-pic' />
-            </div>
-            <div>
-              <ModalWrapper
-                visible={show}
-                onClose={handleClose}
-                title='Create Post'
-                footer={
-                  <>
-                    <Button variant='danger' onClick={handleClose}>
-                      Discard
-                    </Button>
-                    <Button variant='success' onClick={createPost}>
-                      Post
-                    </Button>
-                  </>
-                }
-              >
-                <TextInput
-                  as={'textarea'}
-                  rows={3}
-                  label='Whats in your mind'
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                />
+            </Nav.Link>
 
-                <ImageUploader onImageChange={onImageChange} images={images} />
-              </ModalWrapper>
-            </div>
+            <NavDropdown
+              title={
+                <div className='profile-pic'>
+                  <img src={AllImages.men} alt='profile-pic' />
+                </div>
+              }
+              id='basic-nav-dropdown'
+            >
+              <NavDropdown.Item
+                onClick={() => {
+                  logoutUser()
+                }}
+              >
+                Logout
+              </NavDropdown.Item>
+            </NavDropdown>
+            {show && (
+              <div>
+                <ModalWrapper
+                  visible={show}
+                  onClose={handleClose}
+                  title='Create Post'
+                  footer={
+                    <>
+                      <Button variant='danger' onClick={handleClose}>
+                        Discard
+                      </Button>
+                      <Button variant='success' onClick={createPost}>
+                        Post
+                      </Button>
+                    </>
+                  }
+                >
+                  <TextInput
+                    as={'textarea'}
+                    rows={3}
+                    label='Whats in your mind'
+                    value={content}
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+
+                  <ImageUploader onImageChange={onImageChange} images={images} />
+                </ModalWrapper>
+              </div>
+            )}
+
             {showSearch && (
               <div>
                 <ModalWrapper
@@ -151,7 +173,7 @@ const Header: FC = () => {
                     {(serachedUsers || []).map((el) => {
                       return (
                         <li key={el._id} className='search-users-list-li'>
-                          {el.fullname || el.email}{' '}
+                          {el.username || '-- -- --'}{' '}
                           <Button
                             variant='secondary'
                             disabled={

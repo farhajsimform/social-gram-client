@@ -13,7 +13,7 @@ const LeftSideBar: FC = () => {
           <img src={images.men} alt='' />
         </div>
         <div className='profile-username'>
-          <h6>{profileData?.fullname || '-----'}</h6>
+          <h6>{profileData?.username || '-----'}</h6>
           <p>{profileData?.email}</p>
         </div>
       </div>

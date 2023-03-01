@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 
 const UserPost: FC<IPosts> = ({
   _id,
-  postedby: { picture, fullname, email },
+  postedby: { picture, username },
   images: postImages,
   likesCount,
   comments,
@@ -32,7 +32,7 @@ const UserPost: FC<IPosts> = ({
               <img src={picture ? ImageWrapper(`users/${picture}`) : images.men} alt='' />
             </div>
             <div className='profile-username'>
-              <span>{fullname || email}</span>
+              <span>{username || '-- -- --'}</span>
               <p>{formatDistance(new Date(createdAt), new Date(), { addSuffix: true })}</p>
             </div>
           </div>

@@ -51,7 +51,8 @@ const Chat: FC = () => {
         (el) =>
           el.bothfriends.length &&
           (el.bothfriends[0]?.fullname?.includes(searchValue) ||
-            el.bothfriends[0]?.email?.includes(searchValue)),
+            el.bothfriends[0]?.email?.includes(searchValue) ||
+            el.bothfriends[0]?.username?.includes(searchValue)),
       )
       .sort(
         (a, b) =>
@@ -133,7 +134,7 @@ const Chat: FC = () => {
                   alt=''
                 />
                 <div className='text'>
-                  <h6>{bothfriends?.[0]?.fullname || bothfriends?.[0]?.email}</h6>
+                  <h6>{bothfriends?.[0]?.username || '-- -- --'}</h6>
                   <p className='text-muted'>Working from home...</p>
                 </div>
                 <span className='settings-tray--right'>

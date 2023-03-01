@@ -7,7 +7,7 @@ import { ImageWrapper } from 'utils'
 
 export const CommentListItem: FC<IComments> = ({
   comment,
-  commentby: { fullname, email, picture } = {},
+  commentby: { username, picture } = {},
   createdAt,
 }) => {
   const [limit, setLimit] = useState<number>(1500)
@@ -17,7 +17,7 @@ export const CommentListItem: FC<IComments> = ({
         <img src={picture ? ImageWrapper(`user/${picture}`) : images.men} alt='avatar' />
       </div>
       <div className='result_comment col-md-11'>
-        <h4>{fullname || email}</h4>
+        <h4>{username || '-- -- --'}</h4>
         <p>
           {comment?.length > 1500 ? (
             <>

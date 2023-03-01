@@ -3,6 +3,7 @@ export interface IPostedBy {
   fullname: string
   email: string
   picture: string
+  username: string
 }
 
 export interface IComments {
