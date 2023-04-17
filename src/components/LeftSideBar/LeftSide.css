@@ -4,6 +4,8 @@
     padding: 20px 25px;
     height: fit-content;
     display: inline-block;
+    position: sticky;
+    top: 78px;
   }
   .feed-user-profile {
     display: flex;

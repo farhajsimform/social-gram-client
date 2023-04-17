@@ -1,3 +1,7 @@
+.header {
+    position: sticky;
+    top: 0;
+} 
 .header .bg-light{
     padding: 0 24px;
 }

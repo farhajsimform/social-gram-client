@@ -1,6 +1,9 @@
 /* .post {
   margin: 40px 0;
 } */
+.post {
+  margin-bottom: 20px;
+}
 .post-wrapper {
     max-width: 600px;
     width: 100%;
